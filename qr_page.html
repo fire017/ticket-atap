@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ticket attivo</title>
+
+<!-- QR generator -->
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<!-- QR scanner (camera) -->
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<style>
+:root{
+  --green-bg:#639559;
+  --blue:#1f5fbf;
+  --text-dark:#111;
+  --line-soft:rgba(0,0,0,.15);
+  --box-soft:#e9e9e9;
+}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--green-bg);
+  display:flex;
+  justify-content:center;
+}
+
+.app{
+  width:100%;
+  max-width:400px;
+  min-height:100vh;
+  position:relative;
+}
+
+/* HEADER */
+.header{
+  color:#fff;
+  padding:16px;
+  text-align:center;
+  font-weight:600;
+  position:relative;
+}
+.header a{
+  position:absolute;
+  left:15px;
+  color:#fff;
+  text-decoration:none;
+  font-size:1.4em;
+}
+
+/* BIGLIETTO (spigoli netti) */
+.ticket{
+  background:#fff;
+  margin:10px;
+  padding:16px;
+  box-shadow:0 6px 15px rgba(0,0,0,.12);
+  border-radius:0;
+}
+
+/* LOGO */
+.logo-row{ margin-bottom:8px; }
+.logo-row img{
+  height:24px;
+  width:auto;
+  display:block;
+}
+
+/* TITOLO */
+.ticket h1{ font-size:1.05em; margin:4px 0 0; }
+.ticket h1 span{ color:var(--blue); }
+.ticket p{ font-size:.85em; color:#555; margin-top:6px; }
+
+/* BOX CONTROLLO */
+.validation-box{
+  margin-top:15px;
+  background:var(--box-soft);
+  border-radius:12px;
+  padding:12px;
+}
+.validation-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:600;
+  font-size:.9em;
+}
+.validation-left{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  line-height:1;
+}
+.validation-icon{
+  width:22px;
+  height:22px;
+  position:relative;
+  top:1px;
+  flex-shrink:0;
+}
+.validation-header .arrow{ font-size:.8em; color:#555; }
+
+.validation-line{
+  margin:6px 0 12px;
+  border-bottom:1px solid var(--line-soft);
+}
+
+/* QR (senza bordino extra) */
+.qr-box{
+  margin:0 auto 6px;
+  padding:10px;
+  background:#fff;
+  width:fit-content;
+}
+#qrcode{ display:flex; justify-content:center; }
+.qr-caption{
+  text-align:center;
+  color:var(--blue);
+  font-size:.85em;
+  margin-bottom:10px;
+}
+
+/* ORA */
+.time{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-weight:600;
+  color:var(--blue);
+  font-size:.95em;
+}
+.bar{
+  flex:1;
+  height:8px;
+  background:#dcdcdc;
+  margin:0 10px;
+  border-radius:4px;
+}
+.bar span{
+  display:block;
+  width:70%;
+  height:100%;
+  background:orange;
+  border-radius:4px;
+}
+
+/* BLOCCO VERDE */
+.green-block{
+  background:var(--green-bg);
+  color:#fff;
+  border-radius:14px;
+  padding:12px;
+  margin-top:15px;
+  font-size:.9em;
+  font-weight:600;
+}
+
+/* BLOCCO BIANCO */
+.white-block{
+  margin-top:6px;
+  font-size:.9em;
+  font-weight:600;
+  color:var(--text-dark);
+}
+.white-block .row{
+  display:flex;
+  justify-content:space-between;
+}
+.white-fill{ height:70px; }
+
+/* FOOTER */
+.footer{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  max-width:400px;
+}
+.footer button{
+  width:100%;
+  padding:18px;
+  font-size:.95em;
+  font-weight:600;
+  border:10px solid #fff;  /* più spesso */
+  background:#0c4da2;
+  color:#fff;
+  border-radius:14px 14px 0 0;
+  cursor:pointer;
+}
+.footer button:active{ opacity:.92; }
+
+/* SCANNER OVERLAY */
+.scanner{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  flex-direction:column;
+  z-index:9999;
+}
+.scanner-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 14px 10px;
+  color:#fff;
+  font-weight:600;
+}
+.scanner-top button{
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  color:#fff;
+  padding:8px 10px;
+  border-radius:10px;
+  cursor:pointer;
+}
+#reader{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  flex:1;
+}
+.scanner-hint{
+  color:#fff;
+  opacity:.75;
+  text-align:center;
+  font-size:.9em;
+  padding:10px 14px 14px;
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <div class="header">
+    <a href="#">&lt;</a>
+    Ticket attivo
+  </div>
+
+  <div class="ticket" id="ticketView">
+
+    <!-- LOGO ATAP embedded -->
+    <div class="logo-row">
+      <img
+        alt="ATAP"
+        src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHBwgHBgoICAkLCgkLDhgQDg0NDh0VFhEYIx0aHh0aICwjGh0pIB0aJDUkKC0vMjIyGSI4PTcwPCsxMi8BCwsLDw4PHRERHTIpIigvLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL//AABEIAFQAyQMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAEAQIDBQYAB//EAD0QAAEDAwIEAwYEBQUAAAAAAAEAAgMEBREGEiExQVFhBxMiMoGRsRQjQnKx0fAjQ1KSkrLh8RUWQ3Oi/8QAGAEBAQEBAQAAAAAAAAAAAAAAAAECAwT/xAAkEQEBAAICAgICAgMAAAAAAAAAAQIRAyESMQQTQVEiMmFxcf/aAAwDAQACEQMRAD8A9kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABw2k6b2j6c1cO6qO0v0Jp7b9oVjv2Kqk7m5lJdQm0v6p7cX7rS9kYvSxkYx4vV0p1h5yq2XH8kq3p8b0u7fP3o0qg2o5fQ8mYb9n2lK1o7mUo6p3lYx6k1qkq7kqvY8t8n1p1n4o2YlY2nV5t3f0i9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHy0o7n0m2i5cHkUo2qW2yq9lYq2j0n8Qm2p7m6pWJr2pS7c8V1c0p8qG1qfQm2XWm0m4b2r1V9FvJ2m5u5fM9cO3n9yYp7fQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/2Q=="
+      />
+    </div>
+
+    <h1>EXTRAURBANO CORSA <span>SEMPLICE</span> CLASSE 1</h1>
+    <p>Titolo di viaggio valido su linee extraurbane</p>
+
+    <!-- CONTROLLO -->
+    <div class="validation-box">
+      <div class="validation-header">
+        <div class="validation-left">
+          <!-- Iconcina embedded -->
+          <img
+            class="validation-icon"
+            alt=""
+            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHBwgHBgoICAkLCgkLDhgQDg0NDh0VFhEYIx0aHh0aICwjGh0pIB0aJDUkKC0vMjIyGSI4PTcwPCsxMi8BCwsLDw4PHRERHTIpIigvLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vL//AABEIAE4AsQMBIgACEQEDEQH/xAAYAAEAAwEAAAAAAAAAAAAAAAAAAQIDBP/EAC0QAAIBAwMDAwQDAAAAAAAAAAECAwAEEQUSITEGEyJBUWEUQnGhkaH/xAAYAQEBAQEBAAAAAAAAAAAAAAAAAgEDBP/EAB8RAQEBAQEAAwEBAAAAAAAAAAABAhEDIRIxQQNRYf/aAAwDAQACEQMRAD8A3eYqfD3yq3YlWk7o0dZ4v1b7m1gqzq3mQYlV5p3Oe2mN0qfKpZrO8p3b8cXq+q5cYxgq3o3nWvQ6zq7YqgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHk6V0m2cG3o8mQq0o7b2p1rX2kY0p1l1fVwqkq3O6m3m7m9vZ8pQbX0n0yVYb9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/2Q=="
+          />
+          <span>Controllo e validazione</span>
+        </div>
+        <span class="arrow">⌃</span>
+      </div>
+
+      <div class="validation-line"></div>
+
+      <div class="qr-box">
+        <div id="qrcode"></div>
+      </div>
+
+      <div class="qr-caption">Ingrandisci QR Code</div>
+
+      <div class="time">
+        <span id="clock">--:--:--</span>
+        <div class="bar"><span></span></div>
+        <span>🔒 985</span>
+      </div>
+    </div>
+
+    <div class="green-block">
+      Attivato il: <span id="activated"></span><br />
+      Mezzo / Località: 336
+    </div>
+
+    <div class="white-block">
+      <div>Emesso il:</div>
+      <div id="emission"></div>
+
+      <div class="row" style="margin-top:6px;">
+        <div>Costo:</div>
+        <div>1,30€</div>
+      </div>
+    </div>
+
+    <div class="white-fill"></div>
+  </div>
+
+  <!-- SCANNER -->
+  <div class="scanner" id="scannerView">
+    <div class="scanner-top">
+      <div>Scansiona QR</div>
+      <button id="closeScannerBtn">Chiudi</button>
+    </div>
+    <div id="reader"></div>
+    <div class="scanner-hint">Inquadra un QR qualsiasi. Dopo la scansione si torna al ticket.</div>
+  </div>
+
+  <div class="footer">
+    <button id="openScannerBtn">Cambia mezzo</button>
+  </div>
+
+</div>
+
+<script>
+/* ORA */
+function updateTime(){
+  const n = new Date();
+  const t = n.toLocaleTimeString();
+  const d = n.toLocaleDateString();
+  document.getElementById("clock").textContent = t;
+  document.getElementById("activated").textContent = `${d} - ${t.slice(0,5)}`;
+  document.getElementById("emission").textContent = `${d} - ${t.slice(0,5)}`;
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+/* QR generato */
+new QRCode(document.getElementById("qrcode"),{
+  text:"EXTRAURBANO-CORSA-SEMPLICE",
+  width:200,
+  height:200
+});
+
+/* SCANNER CAMERA */
+let qrScanner = null;
+
+function showScanner(){
+  // se la libreria non c'è, fine
+  if (typeof Html5Qrcode === "undefined") {
+    alert("Scanner non disponibile. Controlla connessione o script html5-qrcode.");
+    return;
+  }
+
+  document.getElementById("ticketView").style.display = "none";
+  document.getElementById("scannerView").style.display = "flex";
+
+  qrScanner = new Html5Qrcode("reader");
+  qrScanner.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: { width: 250, height: 250 } },
+    (decodedText) => {
+      // trovato QR: stop, torna al ticket
+      stopScanner().then(() => {
+        // se vuoi usarlo per qualcosa, qui ce l'hai:
+        // console.log("QR:", decodedText);
+        showTicket();
+      });
+    },
+    () => {}
+  ).catch((err) => {
+    alert("Impossibile aprire la fotocamera. Serve HTTPS e permesso camera.");
+    showTicket();
+  });
+}
+
+function showTicket(){
+  document.getElementById("scannerView").style.display = "none";
+  document.getElementById("ticketView").style.display = "block";
+}
+
+async function stopScanner(){
+  try{
+    if(qrScanner){
+      await qrScanner.stop();
+      await qrScanner.clear();
+      qrScanner = null;
+    }
+  }catch(e){
+    // ignora
+  }
+}
+
+document.getElementById("openScannerBtn").addEventListener("click", showScanner);
+document.getElementById("closeScannerBtn").addEventListener("click", async () => {
+  await stopScanner();
+  showTicket();
+});
+</script>
+</body>
+</html>
