@@ -15,7 +15,6 @@
   --text:#111;
   --muted:#888;
   --soft:#efefef;
-  --line:rgba(0,0,0,.15);
 }
 
 /* BASE */
@@ -23,84 +22,273 @@ body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   background:var(--green-bg);
-  display:flex;justify-content:center
+  display:flex;
+  justify-content:center;
 }
-.app{width:100%;max-width:400px;min-height:100vh;padding-bottom:120px}
+.app{
+  width:100%;
+  max-width:400px;
+  min-height:100vh;
+  padding-bottom:120px;
+}
 
 /* HEADER */
-.header{color:#fff;padding:16px;text-align:center;font-weight:600;position:relative}
-.header a{position:absolute;left:15px;color:#fff;text-decoration:none;font-size:1.4em}
+.header{
+  color:#fff;
+  padding:16px;
+  text-align:center;
+  font-weight:600;
+  position:relative;
+}
+.header a{
+  position:absolute;
+  left:15px;
+  color:#fff;
+  text-decoration:none;
+  font-size:1.4em;
+}
 
 /* CARD */
 .ticket{
-  background:#fff;margin:10px;padding:16px;
-  box-shadow:0 6px 15px rgba(0,0,0,.12);border-radius:0
+  background:#fff;
+  margin:10px;
+  padding:16px;
+  box-shadow:0 6px 15px rgba(0,0,0,.12);
+  border-radius:0;
 }
 
-/* LOGO ATAP (CSS) */
-.logo-atap{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px;margin-bottom:6px}
-.logo-mark{width:14px;height:6px;background:linear-gradient(to right,#c62828,#f9a825);border-radius:2px}
+/* LOGO */
+.logo-atap{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:6px;
+}
+.logo-mark{
+  width:14px;
+  height:6px;
+  background:linear-gradient(to right,#c62828,#f9a825);
+  border-radius:2px;
+}
 
-/* TITLE */
-.ticket h1{font-size:1.05em;margin:4px 0 0}
-.ticket h1 span{color:var(--blue)}
-.ticket p{font-size:.85em;color:#555;margin-top:6px}
+/* ===== TITOLO (tutto nero) ===== */
+.ticket h1{
+  font-size:1.05em;
+  margin:4px 0 0;
+  color:var(--text);
+}
+.ticket p{
+  font-size:.85em;
+  color:#555;
+  margin-top:6px;
+}
+
+/* CLASSE SELECT (nero completo) */
+.class-wrap{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  position:relative;
+  margin-left:4px;
+}
+.class-select{
+  border:none;
+  background:transparent;
+  font-weight:700;
+  font-size:1em;
+  appearance:none;
+  padding-right:14px;
+  cursor:pointer;
+  color:var(--text); /* nero */
+}
+.class-wrap::after{
+  content:"⌄";
+  font-size:.8em;
+  color:var(--text); /* freccia nera */
+}
 
 /* VALIDATION */
-.validation-box{margin-top:15px;background:var(--soft);border-radius:14px;padding:12px}
-.validation-header{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.9em}
-.validation-left{display:flex;align-items:center;gap:8px}
+.validation-box{
+  margin-top:15px;
+  background:var(--soft);
+  border-radius:14px;
+  padding:12px;
+}
+.validation-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:600;
+  font-size:.9em;
+}
+.validation-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 .control-icon{
-  width:18px;height:18px;border:1.5px solid #777;border-radius:2px;background:#f2f2f2;position:relative
+  width:18px;
+  height:18px;
+  border:1.5px solid #777;
+  border-radius:2px;
+  background:#f2f2f2;
+  position:relative;
 }
 .control-icon::before{
-  content:"";position:absolute;left:4px;top:3px;width:8px;height:10px;border:1.5px solid #777;border-radius:1px
+  content:"";
+  position:absolute;
+  left:4px;
+  top:3px;
+  width:8px;
+  height:10px;
+  border:1.5px solid #777;
+  border-radius:1px;
 }
-.validation-line{margin:6px 0 12px;border-bottom:1px solid var(--line)}
 
-#qrcode{display:flex;justify-content:center;margin:12px 0}
+/* QR */
+#qrcode{
+  display:flex;
+  justify-content:center;
+  margin:12px 0;
+}
 #qrcode canvas{background:transparent!important}
-.qr-caption{text-align:center;color:var(--blue);font-size:.85em;margin-bottom:10px}
-
-.time{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--blue)}
-.bar{flex:1;height:8px;background:#dcdcdc;border-radius:4px;overflow:hidden}
-.bar span{display:block;height:100%;width:55%;background:orange}
-.lock{color:#666;margin-left:auto}
-
-/* GREEN BLOCK */
-.green-block{
-  background:var(--green-bg);color:#fff;border-radius:14px;
-  padding:12px;margin-top:15px;font-size:.9em;font-weight:600
+.qr-caption{
+  text-align:center;
+  color:var(--blue);
+  font-size:.85em;
+  margin-bottom:10px;
 }
 
-/* DETAILS – TIPOGRAFIA OMOGENEA */
-.details{margin-top:16px;border-top:1px solid #e6e6e6;padding-top:14px}
-.row{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px}
-.label{color:var(--muted);font-weight:500;font-size:.95em}
-.value{font-weight:600;color:var(--text);font-size:1em}
-.price{font-size:1.4em;font-weight:700;color:var(--text)}
-.row + .row{margin-top:18px}
+/* TIME */
+.time{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  font-weight:600;
+  color:var(--blue);
+}
+.time-left{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:120px;
+}
+.clock-icon{
+  opacity:.6;
+  color:#6f7f8f;
+  font-size:.95em;
+}
+.time-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-left:auto;
+}
+.bar-mini{
+  width:56px;
+  height:6px;
+  background:#dcdcdc;
+  border-radius:4px;
+  overflow:hidden;
+}
+.bar-mini span{
+  display:block;
+  height:100%;
+  width:55%;
+  background:orange;
+}
+.lock{
+  color:#666;
+  font-weight:700;
+}
 
+/* DETAILS */
+.details{
+  margin-top:16px;
+  border-top:1px solid #e6e6e6;
+  padding-top:14px;
+}
+.green-block{
+  background:var(--green-bg);
+  color:#fff;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:12px;
+  font-size:.9em;
+  font-weight:600;
+}
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-top:10px;
+}
+.label{
+  color:var(--muted);
+  font-weight:500;
+}
+.value{
+  font-weight:600;
+}
+.price{
+  font-size:1.4em;
+  font-weight:700;
+}
 .toggle{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-top:20px;font-weight:700;color:#1b6fb8;cursor:pointer
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:20px;
+  font-weight:700;
+  color:#1b6fb8;
+  cursor:pointer;
 }
 .hidden{display:none}
-.kv{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid #eee}
-.kv .label{font-weight:500}
-.kv .value{font-weight:600}
+.kv{
+  display:flex;
+  justify-content:space-between;
+  padding:12px 0;
+  border-top:1px solid #eee;
+}
 
 /* FOOTER */
-.footer{position:fixed;bottom:0;width:100%;max-width:400px}
+.footer{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  max-width:400px;
+}
 .footer button{
-  width:100%;padding:18px;font-size:1em;font-weight:700;
-  border:10px solid #fff;background:#0c4da2;color:#fff;border-radius:14px 14px 0 0
+  width:100%;
+  padding:18px;
+  font-size:1em;
+  font-weight:700;
+  border:10px solid #fff;
+  background:#0c4da2;
+  color:#fff;
+  border-radius:14px 14px 0 0;
 }
 
 /* SCANNER */
-.scanner{position:fixed;inset:0;background:#000;display:none;flex-direction:column;z-index:9999}
+.scanner{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  flex-direction:column;
+  z-index:9999;
+}
 .scanner.show{display:flex}
-.scanner-top{color:#fff;padding:14px;display:flex;justify-content:space-between;font-weight:700}
+.scanner-top{
+  color:#fff;
+  padding:14px;
+  display:flex;
+  justify-content:space-between;
+  font-weight:700;
+}
 #reader{flex:1}
 </style>
 </head>
@@ -117,7 +305,20 @@ body{
 
     <div class="logo-atap"><span class="logo-mark"></span>ATAP</div>
 
-    <h1>EXTRAURBANO CORSA <span>SEMPLICE</span> CLASSE 1</h1>
+    <h1>
+      EXTRAURBANO CORSA SEMPLICE
+      <span class="class-wrap">
+        CLASSE
+        <select class="class-select">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </span>
+    </h1>
+
     <p>Titolo di viaggio valido su linee extraurbane</p>
 
     <div class="validation-box">
@@ -128,25 +329,28 @@ body{
         </div>
         ⌃
       </div>
-      <div class="validation-line"></div>
 
       <div id="qrcode"></div>
       <div class="qr-caption">Ingrandisci QR Code</div>
 
       <div class="time">
-        <span id="clock">--:--:--</span>
-        <div class="bar"><span id="barFill"></span></div>
-        <span class="lock">🔒 985</span>
+        <div class="time-left">
+          <span class="clock-icon">🕒</span>
+          <span id="clock">--:--:--</span>
+        </div>
+        <div class="time-right">
+          <div class="bar-mini"><span id="barFill"></span></div>
+          <span class="lock">🔒 985</span>
+        </div>
       </div>
     </div>
 
-    <div class="green-block">
-      Attivato il: <span id="activated"></span><br>
-      Mezzo / Località: 336
-    </div>
-
-    <!-- DETTAGLI -->
     <div class="details">
+      <div class="green-block">
+        Attivato il: <span id="activated"></span><br>
+        Mezzo / Località: 336
+      </div>
+
       <div class="row">
         <div>
           <div class="label">Emesso il:</div>
@@ -159,30 +363,30 @@ body{
         <div class="price">1,30 €</div>
       </div>
 
+      <!-- RIPRISTINATI DETTAGLI -->
       <div class="toggle" id="toggleDetails">
-        <span>Dettagli</span><span>⌄</span>
+        <span>Dettagli</span>
+        <span>⌄</span>
       </div>
 
       <div id="detailsBox" class="hidden">
-        <div class="kv"><span class="label">Codice Ticket:</span><span class="value">7110/288974</span></div>
+        <div class="kv"><span class="label">Codice:</span><span class="value">7110/288974</span></div>
         <div class="kv"><span class="label">Data:</span><span class="value">15/12/2025 - 14:17</span></div>
         <div class="kv"><span class="label">Mezzo:</span><span class="value">336</span></div>
       </div>
     </div>
-
   </div>
 
-  <!-- SCANNER -->
+  <div class="footer">
+    <button onclick="openScanner()">Cambia mezzo</button>
+  </div>
+
   <div class="scanner" id="scanner">
     <div class="scanner-top">
       <span>Scansiona QR</span>
       <button onclick="closeScanner()">Chiudi</button>
     </div>
     <div id="reader"></div>
-  </div>
-
-  <div class="footer">
-    <button onclick="openScanner()">Cambia mezzo</button>
   </div>
 
 </div>
@@ -202,7 +406,8 @@ setInterval(updateTime,1000);updateTime();
 
 new QRCode(document.getElementById("qrcode"),{
   text:"EXTRAURBANO-CORSA-SEMPLICE",
-  width:200,height:200
+  width:200,
+  height:200
 });
 
 document.getElementById("toggleDetails").onclick=()=>{
@@ -217,7 +422,7 @@ function openScanner(){
   scanner.start({facingMode:"environment"},{fps:10,qrbox:250},()=>closeScanner());
 }
 function closeScanner(){
-  if(scanner){scanner.stop().then(()=>scanner.clear())}
+  if(scanner){scanner.stop().then(()=>scanner.clear()).catch(()=>{})}
   document.getElementById("scanner").classList.remove("show");
   document.getElementById("ticketView").style.display="block";
 }
