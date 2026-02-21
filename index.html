@@ -104,8 +104,6 @@ h1{
   font-weight:600;
   color:#1f5fbf;
 }
-
-/* BARRETTINA */
 .bar-mini{
   width:60px;
   height:6px;
@@ -118,9 +116,32 @@ h1{
   height:100%;
   background:#6ea8ff;
   width:100%;
-  transition:width 0.5s linear;
 }
-
+.lock-area{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#000;
+  font-weight:600;
+}
+.pattern{
+  margin-top:12px;
+  height:28px;
+  border-radius:12px;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #e5dede 0px,
+      #e5dede 8px,
+      #f5f5f5 8px,
+      #f5f5f5 16px
+    );
+  animation: scrollPattern 1.2s linear infinite;
+}
+@keyframes scrollPattern{
+  from{ background-position:0 0; }
+  to{ background-position:32px 0; }
+}
 .green-block{
   margin-top:16px;
   padding:14px;
@@ -144,6 +165,15 @@ h1{
   font-size:1.3em;
   font-weight:700;
 }
+.toggle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+.hidden{display:none}
 .footer{
   padding:16px;
   background:#fff;
@@ -210,9 +240,16 @@ h1{
 <span id="clock">--:--:--</span>
 <div style="display:flex;align-items:center;gap:10px;">
 <div class="bar-mini"><span id="barFill"></span></div>
+<div class="lock-area">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="#000">
+<path d="M12 2a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V7a5 5 0 00-5-5zm-3 8V7a3 3 0 016 0v3H9z"/>
+</svg>
+333
+</div>
 </div>
 </div>
 
+<div class="pattern"></div>
 </div>
 
 <div class="green-block">
@@ -231,6 +268,17 @@ Mezzo / Località: 384
 <div class="row">
 <div>Costo</div>
 <div class="price">3,40 €</div>
+</div>
+
+<div class="toggle" onclick="toggleDetails()">
+<span>Dettagli</span>
+<span>Leggi tutto ⌄</span>
+</div>
+
+<div id="detailsBox" class="hidden">
+<div class="row"><span class="label">Codice Ticket:</span><span>7110/296708</span></div>
+<div class="row"><span class="label">Data:</span><span id="detailDate"></span></div>
+<div class="row"><span class="label">Mezzo:</span><span>384</span></div>
 </div>
 </div>
 
@@ -254,7 +302,6 @@ Mezzo / Località: 384
 function pad(n){return String(n).padStart(2,'0')}
 let duration=90*60*1000;
 let startTime=Date.now();
-let scanner;
 
 function updateTime(){
 const now=Date.now();
@@ -262,10 +309,10 @@ const remaining=duration-(now-startTime);
 const d=new Date();
 const t=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 const da=`${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
-
 document.getElementById("clock").textContent=t;
 document.getElementById("activated").textContent=`${da} - ${t.slice(0,5)}`;
 document.getElementById("emission").textContent=`${da} - ${t.slice(0,5)}`;
+document.getElementById("detailDate").textContent=`${da} - ${t.slice(0,5)}`;
 document.getElementById("barFill").style.width=(remaining/duration*100)+"%";
 }
 setInterval(updateTime,1000);
@@ -277,28 +324,21 @@ width:210,
 height:210
 });
 
+function toggleDetails(){
+document.getElementById("detailsBox").classList.toggle("hidden");
+}
+
+let scanner;
 function openScanner(){
 document.getElementById("scanner").classList.add("show");
 scanner=new Html5Qrcode("reader");
-
-scanner.start(
-  { facingMode: "environment" },
-  { fps: 10, qrbox: 250 },
-  (decodedText) => {
-    console.log("QR letto:", decodedText);
-    closeScanner();
-    startTime = Date.now();
-  }
-).catch(err=>{
-  console.error(err);
-  alert("Camera non disponibile o permessi negati");
+scanner.start({facingMode:"environment"},{fps:10,qrbox:250},()=>{
+closeScanner();
+startTime=Date.now();
 });
 }
-
 function closeScanner(){
-if(scanner){
-  scanner.stop().then(()=>scanner.clear()).catch(()=>{});
-}
+if(scanner){scanner.stop().then(()=>scanner.clear()).catch(()=>{})}
 document.getElementById("scanner").classList.remove("show");
 }
 </script>
