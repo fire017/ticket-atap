@@ -9,19 +9,10 @@
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <style>
-:root{
-  --green-bg:#639559;
-  --blue:#1f5fbf;
-  --text:#111;
-  --muted:#888;
-  --soft:#efefef;
-}
-
-/* BASE */
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  background:var(--green-bg);
+  background:linear-gradient(180deg,#7cc76d,#4fad63);
   display:flex;
   justify-content:center;
 }
@@ -29,233 +20,134 @@ body{
   width:100%;
   max-width:400px;
   min-height:100vh;
-  padding-bottom:120px;
+  padding-bottom:140px;
 }
-
-/* HEADER */
 .header{
   color:#fff;
-  padding:16px;
+  padding:22px 16px 10px;
   text-align:center;
   font-weight:600;
+  font-size:1.1em;
   position:relative;
 }
 .header a{
   position:absolute;
-  left:15px;
+  left:16px;
+  top:20px;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:rgba(255,255,255,.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
   color:#fff;
   text-decoration:none;
-  font-size:1.4em;
 }
-
-/* CARD */
 .ticket{
   background:#fff;
-  margin:10px;
-  padding:16px;
-  box-shadow:0 6px 15px rgba(0,0,0,.12);
-  border-radius:0;
+  margin:18px;
+  padding:20px;
+  border-radius:24px;
+  box-shadow:0 8px 25px rgba(0,0,0,.15);
 }
-
-/* LOGO */
-.logo-atap{
-  display:flex;
-  align-items:center;
-  gap:6px;
+.logo{
   font-weight:700;
   font-size:14px;
-  margin-bottom:6px;
+  margin-bottom:8px;
 }
-.logo-mark{
-  width:14px;
-  height:6px;
-  background:linear-gradient(to right,#c62828,#f9a825);
-  border-radius:2px;
-}
-
-/* ===== TITOLO (tutto nero) ===== */
-.ticket h1{
+h1{
+  margin:0;
   font-size:1.05em;
-  margin:4px 0 0;
-  color:var(--text);
+  color:#1f5fbf;
+  font-weight:700;
 }
-.ticket p{
+.subtitle{
+  font-size:.9em;
+  font-weight:600;
+  color:#333;
+  margin-top:2px;
+}
+.desc{
   font-size:.85em;
-  color:#555;
+  color:#6f7f8f;
   margin-top:6px;
 }
-
-/* CLASSE SELECT (nero completo) */
-.class-wrap{
-  display:inline-flex;
-  align-items:center;
-  gap:4px;
-  position:relative;
-  margin-left:4px;
-}
-.class-select{
-  border:none;
-  background:transparent;
-  font-weight:700;
-  font-size:1em;
-  appearance:none;
-  padding-right:14px;
-  cursor:pointer;
-  color:var(--text); /* nero */
-}
-.class-wrap::after{
-  content:"⌄";
-  font-size:.8em;
-  color:var(--text); /* freccia nera */
-}
-
-/* VALIDATION */
 .validation-box{
   margin-top:15px;
-  background:var(--soft);
-  border-radius:14px;
-  padding:12px;
+  background:#f7f8f9;
+  border-radius:18px;
+  padding:14px;
+  border:1px solid #d9d9d9;
 }
 .validation-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
   font-weight:600;
   font-size:.9em;
+  margin-bottom:10px;
+  color:#4a4a4a;
 }
-.validation-left{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.control-icon{
-  width:18px;
-  height:18px;
-  border:1.5px solid #777;
-  border-radius:2px;
-  background:#f2f2f2;
-  position:relative;
-}
-.control-icon::before{
-  content:"";
-  position:absolute;
-  left:4px;
-  top:3px;
-  width:8px;
-  height:10px;
-  border:1.5px solid #777;
-  border-radius:1px;
-}
-
-/* QR */
 #qrcode{
   display:flex;
   justify-content:center;
-  margin:12px 0;
 }
-#qrcode canvas{background:transparent!important}
 .qr-caption{
   text-align:center;
-  color:var(--blue);
+  color:#1f5fbf;
   font-size:.85em;
-  margin-bottom:10px;
+  margin-top:6px;
 }
-
-/* TIME */
 .time{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:10px;
+  align-items:center;
+  margin-top:8px;
   font-weight:600;
-  color:var(--blue);
+  color:#1f5fbf;
 }
-.time-left{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  min-width:120px;
-}
-.clock-icon{
-  opacity:.6;
-  color:#6f7f8f;
-  font-size:.95em;
-}
-.time-right{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-left:auto;
-}
+
+/* BARRETTINA */
 .bar-mini{
-  width:56px;
+  width:60px;
   height:6px;
-  background:#dcdcdc;
+  background:#ddd;
   border-radius:4px;
   overflow:hidden;
 }
 .bar-mini span{
   display:block;
   height:100%;
-  width:55%;
-  background:orange;
-}
-.lock{
-  color:#666;
-  font-weight:700;
+  background:#6ea8ff;
+  width:100%;
+  transition:width 0.5s linear;
 }
 
-/* DETAILS */
-.details{
-  margin-top:16px;
-  border-top:1px solid #e6e6e6;
-  padding-top:14px;
-}
 .green-block{
-  background:var(--green-bg);
+  margin-top:16px;
+  padding:14px;
+  border-radius:16px;
+  background:linear-gradient(90deg,#6dc16a,#4aa957);
   color:#fff;
-  border-radius:14px;
-  padding:12px;
-  margin-bottom:12px;
   font-size:.9em;
   font-weight:600;
+}
+.section{
+  margin-top:16px;
+  font-size:.9em;
 }
 .row{
   display:flex;
   justify-content:space-between;
-  align-items:baseline;
-  margin-top:10px;
+  margin-top:6px;
 }
-.label{
-  color:var(--muted);
-  font-weight:500;
-}
-.value{
-  font-weight:600;
-}
+.label{color:#888;}
 .price{
-  font-size:1.4em;
+  font-size:1.3em;
   font-weight:700;
 }
-.toggle{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:20px;
-  font-weight:700;
-  color:#1b6fb8;
-  cursor:pointer;
-}
-.hidden{display:none}
-.kv{
-  display:flex;
-  justify-content:space-between;
-  padding:12px 0;
-  border-top:1px solid #eee;
-}
-
-/* FOOTER */
 .footer{
+  padding:16px;
+  background:#fff;
+  border-radius:22px 22px 0 0;
   position:fixed;
   bottom:0;
   width:100%;
@@ -263,16 +155,14 @@ body{
 }
 .footer button{
   width:100%;
-  padding:18px;
+  padding:14px;
   font-size:1em;
-  font-weight:700;
-  border:10px solid #fff;
-  background:#0c4da2;
+  font-weight:600;
+  border:none;
+  background:linear-gradient(90deg,#4c8bf5,#1f5fbf);
   color:#fff;
-  border-radius:14px 14px 0 0;
+  border-radius:14px;
 }
-
-/* SCANNER */
 .scanner{
   position:fixed;
   inset:0;
@@ -284,10 +174,10 @@ body{
 .scanner.show{display:flex}
 .scanner-top{
   color:#fff;
-  padding:14px;
+  padding:16px;
   display:flex;
   justify-content:space-between;
-  font-weight:700;
+  font-weight:600;
 }
 #reader{flex:1}
 </style>
@@ -296,135 +186,120 @@ body{
 <body>
 <div class="app">
 
-  <div class="header">
-    <a href="#">&lt;</a>
-    Ticket attivo
-  </div>
+<div class="header">
+  <a href="#">&lt;</a>
+  Ticket attivo
+</div>
 
-  <div class="ticket" id="ticketView">
+<div class="ticket">
 
-    <div class="logo-atap"><span class="logo-mark"></span>ATAP</div>
+<div class="logo">ATAP</div>
 
-    <h1>
-      EXTRAURBANO CORSA SEMPLICE
-      <span class="class-wrap">
-        CLASSE
-        <select class="class-select">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
-      </span>
-    </h1>
+<h1>EXTRAURBANO CORSA SEMPLICE</h1>
+<div class="subtitle">CLASSE 5</div>
+<div class="desc">Titolo di viaggio valido su linee extraurbane</div>
 
-    <p>Titolo di viaggio valido su linee extraurbane</p>
+<div class="validation-box">
+<div class="validation-header">Controllo e validazione</div>
 
-    <div class="validation-box">
-      <div class="validation-header">
-        <div class="validation-left">
-          <span class="control-icon"></span>
-          <span>Controllo e validazione</span>
-        </div>
-        ⌃
-      </div>
+<div id="qrcode"></div>
 
-      <div id="qrcode"></div>
-      <div class="qr-caption">Ingrandisci QR Code</div>
+<div class="qr-caption">Ingrandisci QRCode</div>
 
-      <div class="time">
-        <div class="time-left">
-          <span class="clock-icon">🕒</span>
-          <span id="clock">--:--:--</span>
-        </div>
-        <div class="time-right">
-          <div class="bar-mini"><span id="barFill"></span></div>
-          <span class="lock">🔒 985</span>
-        </div>
-      </div>
-    </div>
+<div class="time">
+<span id="clock">--:--:--</span>
+<div style="display:flex;align-items:center;gap:10px;">
+<div class="bar-mini"><span id="barFill"></span></div>
+</div>
+</div>
 
-    <div class="details">
-      <div class="green-block">
-        Attivato il: <span id="activated"></span><br>
-        Mezzo / Località: 336
-      </div>
+</div>
 
-      <div class="row">
-        <div>
-          <div class="label">Emesso il:</div>
-          <div class="value" id="emission"></div>
-        </div>
-      </div>
+<div class="green-block">
+Attivato il: <span id="activated"></span><br>
+Mezzo / Località: 384
+</div>
 
-      <div class="row">
-        <div class="value">Costo</div>
-        <div class="price">1,30 €</div>
-      </div>
+<div class="section">
+<div class="row">
+<div>
+<div class="label">Emesso il</div>
+<div id="emission"></div>
+</div>
+</div>
 
-      <!-- RIPRISTINATI DETTAGLI -->
-      <div class="toggle" id="toggleDetails">
-        <span>Dettagli</span>
-        <span>⌄</span>
-      </div>
+<div class="row">
+<div>Costo</div>
+<div class="price">3,40 €</div>
+</div>
+</div>
 
-      <div id="detailsBox" class="hidden">
-        <div class="kv"><span class="label">Codice:</span><span class="value">7110/288974</span></div>
-        <div class="kv"><span class="label">Data:</span><span class="value">15/12/2025 - 14:17</span></div>
-        <div class="kv"><span class="label">Mezzo:</span><span class="value">336</span></div>
-      </div>
-    </div>
-  </div>
+</div>
 
-  <div class="footer">
-    <button onclick="openScanner()">Cambia mezzo</button>
-  </div>
+<div class="footer">
+<button onclick="openScanner()">Cambia mezzo</button>
+</div>
 
-  <div class="scanner" id="scanner">
-    <div class="scanner-top">
-      <span>Scansiona QR</span>
-      <button onclick="closeScanner()">Chiudi</button>
-    </div>
-    <div id="reader"></div>
-  </div>
+<div class="scanner" id="scanner">
+<div class="scanner-top">
+<span>Scansiona QR</span>
+<button onclick="closeScanner()">Chiudi</button>
+</div>
+<div id="reader"></div>
+</div>
 
 </div>
 
 <script>
 function pad(n){return String(n).padStart(2,'0')}
+let duration=90*60*1000;
+let startTime=Date.now();
+let scanner;
+
 function updateTime(){
-  const d=new Date();
-  const t=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-  const da=`${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
-  document.getElementById("clock").textContent=t;
-  document.getElementById("activated").textContent=`${da} - ${t.slice(0,5)}`;
-  document.getElementById("emission").textContent=`${da} - ${t.slice(0,5)}`;
-  document.getElementById("barFill").style.width=(d.getSeconds()/60*100)+"%";
+const now=Date.now();
+const remaining=duration-(now-startTime);
+const d=new Date();
+const t=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+const da=`${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
+
+document.getElementById("clock").textContent=t;
+document.getElementById("activated").textContent=`${da} - ${t.slice(0,5)}`;
+document.getElementById("emission").textContent=`${da} - ${t.slice(0,5)}`;
+document.getElementById("barFill").style.width=(remaining/duration*100)+"%";
 }
-setInterval(updateTime,1000);updateTime();
+setInterval(updateTime,1000);
+updateTime();
 
 new QRCode(document.getElementById("qrcode"),{
-  text:"EXTRAURBANO-CORSA-SEMPLICE",
-  width:200,
-  height:200
+text:`ATAP|7110|${Date.now()}`,
+width:210,
+height:210
 });
 
-document.getElementById("toggleDetails").onclick=()=>{
-  document.getElementById("detailsBox").classList.toggle("hidden");
-};
-
-let scanner;
 function openScanner(){
-  document.getElementById("scanner").classList.add("show");
-  document.getElementById("ticketView").style.display="none";
-  scanner=new Html5Qrcode("reader");
-  scanner.start({facingMode:"environment"},{fps:10,qrbox:250},()=>closeScanner());
+document.getElementById("scanner").classList.add("show");
+scanner=new Html5Qrcode("reader");
+
+scanner.start(
+  { facingMode: "environment" },
+  { fps: 10, qrbox: 250 },
+  (decodedText) => {
+    console.log("QR letto:", decodedText);
+    closeScanner();
+    startTime = Date.now();
+  }
+).catch(err=>{
+  console.error(err);
+  alert("Camera non disponibile o permessi negati");
+});
 }
+
 function closeScanner(){
-  if(scanner){scanner.stop().then(()=>scanner.clear()).catch(()=>{})}
-  document.getElementById("scanner").classList.remove("show");
-  document.getElementById("ticketView").style.display="block";
+if(scanner){
+  scanner.stop().then(()=>scanner.clear()).catch(()=>{});
+}
+document.getElementById("scanner").classList.remove("show");
 }
 </script>
 
