@@ -12,7 +12,7 @@
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  background:linear-gradient(180deg,#7cc76d,#4fad63);
+  background:#55B166;
   display:flex;
   justify-content:center;
 }
@@ -92,7 +92,7 @@ h1{
 }
 .qr-caption{
   text-align:center;
-  color:#1f5fbf;
+  color:#005ecb;
   font-size:.85em;
   margin-top:6px;
 }
@@ -102,8 +102,15 @@ h1{
   align-items:center;
   margin-top:8px;
   font-weight:600;
-  color:#1f5fbf;
+  color:#005ecb;
 }
+
+.time > div:first-child{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
 .bar-mini{
   width:60px;
   height:6px;
@@ -111,19 +118,22 @@ h1{
   border-radius:4px;
   overflow:hidden;
 }
+
 .bar-mini span{
   display:block;
   height:100%;
-  background:#6ea8ff;
+  background:#005ecb;
   width:100%;
 }
+
 .lock-area{
   display:flex;
   align-items:center;
   gap:6px;
-  color:#000;
+  color:#005ecb;
   font-weight:600;
 }
+
 .pattern{
   margin-top:12px;
   height:28px;
@@ -237,16 +247,25 @@ h1{
 <div class="qr-caption">Ingrandisci QRCode</div>
 
 <div class="time">
-<span id="clock">--:--:--</span>
-<div style="display:flex;align-items:center;gap:10px;">
-<div class="bar-mini"><span id="barFill"></span></div>
-<div class="lock-area">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="#000">
-<path d="M12 2a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V7a5 5 0 00-5-5zm-3 8V7a3 3 0 016 0v3H9z"/>
-</svg>
-333
-</div>
-</div>
+  <div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#005ecb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 6v6l4 2"></path>
+    </svg>
+    <span id="clock">--:--:--</span>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="bar-mini"><span id="barFill"></span></div>
+
+    <div class="lock-area">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#005ecb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="11" width="16" height="9" rx="2"></rect>
+        <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+      </svg>
+      333
+    </div>
+  </div>
 </div>
 
 <div class="pattern"></div>
